@@ -44,7 +44,7 @@ app.use("/api/v1",require("./src/route/v1/apiRoute"));
     try{
          await connectMongoDB();
          console.log("connected to mongoDB");
-         app.listen(PORT,()=>{console.log(`server is running on ${PORT}`)});
+         app.listen(PORT,'0.0.0.0',()=>{console.log(`server is running on ${PORT}`)});
     }catch(err){
         console.log("connection to mongoDB is failed.")
     }

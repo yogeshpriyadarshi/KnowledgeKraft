@@ -37,26 +37,7 @@ const checkUser= async(req, res, next)=>{
          }
 };
 
-const checkAdminOrModerator = async(req, res, next)=>{
-        if(req?.user?.role!='Admin' && req?.user?.role !="Moderator" ){
-            return res.status(400).json({
-                successfull:false,
-                message:"User is neither Admin nor Moderator"
-            })
-        }
-       next();
-}
-
-const checkModerator = async(req, res, next)=>{
-        if(req?.user?.role!='Moderator'){
-            return res.status(400).json({
-                successfull:false,
-                message:"User is not Moderator"
-            })
-        }
-       next();
-}
-const checkAdmin = async(req, res, next)=>{
+const checkAdmin = (req, res, next)=>{
         if(req?.user?.role!='Admin'){
             return res.status(400).json({
                 successfull:false,
@@ -66,4 +47,4 @@ const checkAdmin = async(req, res, next)=>{
        next();
 }
 
-module.exports = {checkUser,checkAdminOrModerator,checkModerator,checkAdmin};
+module.exports = {checkUser,checkAdmin};

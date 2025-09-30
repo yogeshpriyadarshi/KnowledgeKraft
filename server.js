@@ -30,12 +30,13 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 
+
 app.use((req, res, next)=>{
     console.log("hit api");
     next();
 })
 
-app.use("/api/v1",require("./src/route/v1/apiRoute"));
+app.use("/v1",require("./src/route/v1/apiRoute"));
 
 
 

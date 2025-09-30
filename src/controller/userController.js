@@ -1,5 +1,5 @@
 const User = require("../model/userModel");
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");  // npm install jsonwebtoken.
 
 const userSignup = async (req, res) => {
   try {
@@ -71,12 +71,13 @@ const userLogin = async (req, res) => {
     // 5. Send differently based on platform
     if (platform === "Web") {
       res.cookie("JWTkraftToken", JWTkraftToken, {
-        httpOnly: true, // Prevent JS access
-        secure: process.env.NODE_ENV === "production", // Secure only in production
-        sameSite: "None", // Allow cross-site requests
-        path: "/", // Available site-wide
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7-day expiry
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // allow non-HTTPS in dev
+        sameSite: "Lax", // less strict but works in dev
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
+
       return res.json({
         success: true,
         message: "Login successful (web)",
@@ -99,16 +100,26 @@ const userLogin = async (req, res) => {
   }
 };
 
+const userLogout = async(req, res)=>{
+    // Clear cookie by setting empty value and expiring it
+   res.clearCookie("JWTkraftToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+  return res.status(200).json({ 
+    success:true,
+    message: "Logged out successfully" });
+
+}
 
 const userProfile = async (req, res) => {
   try {
-
     return res.status(200).json({
       success: true,
       message: "profile detail",
-      user:req.user
+      user: req.user,
     });
-
   } catch (err) {
     console.log(err);
     return res.status(400).json({
@@ -118,4 +129,25 @@ const userProfile = async (req, res) => {
   }
 };
 
-module.exports = { userSignup, userProfile, userLogin };
+const viewAllUser = async(req, res)=>{
+   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    const users = await User.find()
+      .sort({ createdAt: -1 }) // recent first
+      .skip(skip)
+      .limit(limit);
+
+    const totalUsers = await User.countDocuments();
+    res.json({
+      users,
+      totalPages: Math.ceil(totalUsers / limit),
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+module.exports = { userSignup, userLogout, userLogin, userProfile,viewAllUser };

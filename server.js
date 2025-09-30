@@ -29,11 +29,6 @@ app.use(cookieParser());
 app.use(express.json());
 
 
-app.use((req, res, next)=>{
-    console.log("hit api");
-    next();
-})
-
 app.use("/v1",require("./src/route/v1/apiRoute"));
 
 

@@ -72,8 +72,8 @@ const userLogin = async (req, res) => {
     if (platform === "Web") {
       res.cookie("JWTkraftToken", JWTkraftToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "Production", // allow non-HTTPS in dev
-        sameSite: "Lax", // less strict but works in dev
+        secure: true,     //   process.env.NODE_ENV === "Production", // allow non-HTTPS in dev
+        sameSite: "None", // less strict but works in dev
         path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });

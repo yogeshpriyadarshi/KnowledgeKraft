@@ -11,7 +11,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",   // Vite
   "http://localhost:7000",   // CRA
-  "lighthearted-muffin-50f551.netlify.app",
+  "https://lighthearted-muffin-50f551.netlify.app",
 ];
 
 app.use(cors({

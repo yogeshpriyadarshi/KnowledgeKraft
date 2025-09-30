@@ -11,9 +11,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",   // Vite
   "http://localhost:7000",   // CRA
-  "https://api.rtiexpress.in",
-  "https://thriving-praline-a1a9a7.netlify.app",
-  "https://radiant-zuccutto-38f37e.netlify.app" // your production frontend (if needed)
+  "lighthearted-muffin-50f551.netlify.app",
 ];
 
 app.use(cors({

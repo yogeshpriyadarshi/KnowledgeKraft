@@ -1,6 +1,5 @@
 const User = require("../model/userModel");
 const jwt = require("jsonwebtoken");  // npm install jsonwebtoken.
-
 const userSignup = async (req, res) => {
   try {
     const { fullName, email, phone, courseOfInterest } = req.body;
@@ -8,9 +7,10 @@ const userSignup = async (req, res) => {
     if (!fullName || !email || !phone) {
       return res.status(400).json({
         success: false,
-        message: "all fields are required",
+        message: "All fields are required",
       });
     }
+
     const user = new User({
       fullName,
       email,
@@ -22,17 +22,28 @@ const userSignup = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "user is creaded",
+      message: "User is created",
       user: savedUser,
     });
   } catch (err) {
     console.log(err);
-    return res.status(400).json({
+
+    // Check for duplicate key error
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyValue)[0]; // which field caused duplicate
+      return res.status(409).json({
+        success: false,
+        message: `Duplicate data: ${field} already exists`,
+      });
+    }
+
+    return res.status(500).json({
       success: false,
-      message: "fail to add user",
+      message: "Failed to add user",
     });
   }
 };
+
 
 const userLogin = async (req, res) => {
   try {

@@ -12,6 +12,7 @@ const allowedOrigins = [
   "http://localhost:5173",   // Vite
   "http://localhost:7000",   // CRA
   "https://lighthearted-muffin-50f551.netlify.app",
+  "https://leads.knowledgekraft.org"
 ];
 
 app.use(cors({

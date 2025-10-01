@@ -104,8 +104,8 @@ const userLogout = async(req, res)=>{
     // Clear cookie by setting empty value and expiring it
    res.clearCookie("JWTkraftToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "Production",
-      sameSite: "strict",
+      secure: true,
+      sameSite: "None",
     });
   return res.status(200).json({ 
     success:true,
